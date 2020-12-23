@@ -3,7 +3,7 @@ This is an area devoted to doing some Machine Learning projects, using scikit-le
 
 TO-DO
 * [X] PCA first principals
-* [ ] pyTorch tutorial [60 minute blitz](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html)
+* [X] pyTorch tutorial [60 minute blitz](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html) - including training a neural network
 * [ ] TensorFlow tutorials (Keras basics with Fashion MNIST dataset)
 * [ ] IRIS dataset
 * [ ] scikit-learn methods
