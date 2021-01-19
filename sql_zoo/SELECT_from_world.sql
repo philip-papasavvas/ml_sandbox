@@ -63,3 +63,21 @@ where gdp > 1000000000000;
 SELECT name, capital
 FROM world
 WHERE length(name) = length(capital);
+
+/* 12. Show the name and capital where the first letters of each match, exclude countries where
+        they have the same name for the country and capital */
+SELECT name, capital
+FROM world
+WHERE ()LEFT(name, 1) = LEFT(capital, 1))
+AND name <> capital;
+
+/* 13. Find the country that has all vowels and no spaces in it's name
+        (Dominican Republic and Equatorial Guinea do not count) */
+SELECT name
+FROM world
+WHERE name LIKE '%A%'
+AND name LIKE '%E%'
+AND name LIKE '%I%'
+AND name LIKE '%O%'
+AND name LIKE '%U%'
+AND name NOT LIKE '% %';        -- name NOT LIKE '%A%' excludes character "A" from results
