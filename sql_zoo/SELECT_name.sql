@@ -56,8 +56,27 @@ SELECT name
     FROM world
     WHERE length(name) = 4;
 
--- 11. find all the countries where the capital is the same name as the country
+-- 12. find all the countries where the capital is the same name as the country
 SELECT name, capital, continent
     FROM world
-    WHERE name = capital;
-    
+    WHERE concat(name, ‘ City’) = capital;
+
+-- 13. find the name, capital where the capital includes the name of the country
+SELECT name, capital
+    FROM world
+    WHERE capital LIKE concat('%', name, '%'); -- SQL doesn't like double quotes "
+
+-- 14. find the capital and name where the capital is an extension of the name of the country
+SELECT capital, name
+    FROM world
+    WHERE capital
+    LIKE concat(name, '%')
+    AND name <> capital; -- filter out where the name of the country is the capital
+
+/* 15. Show the name and extension where the capital is an extension of
+the name of the country */
+SELECT name, REPLACE(capital, name, '')
+    FROM world
+    WHERE capital
+    LIKE concat('%', name, '%')
+    AND name <> capital;

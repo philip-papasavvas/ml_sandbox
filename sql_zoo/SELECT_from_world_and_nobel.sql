@@ -1,4 +1,6 @@
 -- Answers to exercises from https://sqlzoo.net/wiki/SELECT_from_WORLD_Tutorial
+-- (at the bottom) answers to  some questions from
+-- https://sqlzoo.net/wiki/SELECT_from_Nobel_Tutorial
 
 -- 1. Select the name, continent, and population of all countries
 SELECT name, continent, population
@@ -81,3 +83,50 @@ AND name LIKE '%I%'
 AND name LIKE '%O%'
 AND name LIKE '%U%'
 AND name NOT LIKE '% %';        -- name NOT LIKE '%A%' excludes character "A" from results
+
+-- Some non-trivial answers to SELECT_from_nobel
+-- 4. Give the name of the 'Peace' award winners since (and incl.) year 2000
+SELECT winner
+FROM nobel
+WHERE subject = 'Peace'
+AND yr >= 2000;
+
+-- 5. Show all details (yr, subject, winner) of the Literature prize winners
+-- for 1980 to 1989 inclusive
+SELECT yr, subject, winner
+FROM nobel
+WHERE (subject = 'Literature')
+AND (yr >= 1980)
+AND (yr <= 1989);
+
+-- 7. Show the winners with first name John
+SELECT winner
+FROM nobel
+WHERE winner LIKE 'John%';
+
+-- 9. Show the year, subject, and name of winners
+-- for 1980 excluding Chemistry and Medicine
+SELECT yr, subject, winner
+FROM nobel
+WHERE yr = 1980
+AND subject NOT IN ('Chemistry', 'Medicine');
+
+-- 10. how year, subject, and name of people who won a 'Medicine' prize in an early year (before 1910, not including 1910) together with winners of a
+-- 'Literature' prize in a later year (after 2004, including 2004)
+SELECT yr, subject, winner
+FROM nobel
+WHERE (subject = 'Medicine' AND yr < 1910)
+OR (subject = 'Literature' AND yr >= 2004);
+
+--12. Find all details of the prize won by EUGENE O'NEILL
+SELECT yr, subject, winner
+FROM nobel
+WHERE winner = 'EUGENE O''NEILL';
+-- escape the quote
+
+-- 13. List the winners, year and subject where the winner starts with
+-- Sir. Show the the most recent first, then by name order
+SELECT winner, yr, subject
+FROM nobel
+WHERE winner LIKE 'Sir%'
+ORDER BY yr DESC, winner
