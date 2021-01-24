@@ -6,5 +6,3 @@ This repostiory contains all things machine learning, including:
   * Natural Language Processing on SMS messages: apply tokenization and normalisation on the SMS spam dataset from [UCI Machine learning](https://archive.ics.uci.edu/ml/datasets/sms+spam+collection)
 * pyTorch tutorials (using [Google Colab](https://colab.research.google.com/notebooks/intro.ipynb) workbooks for GPU)
 - including the [60 minute blitz](https://pytorch.org/tutorials/beginner/deep_learning_60min_blitz.html), and training a neural network
-
-* [ ] Re-familiarise myself with SQL using [SQLZOO](https://www.sqlzoo.net/)
