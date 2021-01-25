@@ -1,5 +1,5 @@
 # ml_sandbox
-This repostiory contains all things machine learning, including:
+This repostiory contains all things machine learning with the following packages:
 * notebook-projects
   * Breast Cancer - PCA: carry out a principal component analysis on the **breast_cancer** dataset from [scikit-learn](https://scikit-learn.org/stable/) 
   * Diabetes - linear regression: apply a linear regression model to the **diabetes** dataset from [scikit-learn](https://scikit-learn.org/stable/) (to finish)
