@@ -1,0 +1,28 @@
+# Core scientific Python stack used across the projects and scripts.
+# Pinning is intentionally loose; create a fresh virtual environment and run
+#   pip install -r requirements.txt
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+seaborn
+
+# Notebooks / interactive
+jupyter
+ipython
+
+# Performance demo (py_projects/numba_example.py)
+numba
+
+# NLP spam classifier (notebook-projects/spam_classifier_nlp.ipynb)
+nltk
+
+# Deep learning: spam classifier (Keras) and PyTorch tutorials
+tensorflow
+torch
+torchvision
+torchaudio
+
+# Used for rendering decision-tree / pipeline diagrams in some notebooks
+graphviz
