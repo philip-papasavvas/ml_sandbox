@@ -1,65 +1,52 @@
 """
-Created on 31 Jan 2021
+Principal Component Analysis (PCA) on the scikit-learn breast cancer dataset.
 
-Example to show myself that PCA when you don't drop any
-dimensions gives you back the same data with the transform,
-and show the amount of variance lost with different num
-of principal components
+This script illustrates two properties of PCA:
+
+1. With no dimensionality reduction (n_components == n_features) the inverse
+   transform reconstructs the original (scaled) data almost exactly.
+2. As fewer principal components are retained, more variance is discarded and
+   the reconstruction error grows.
+
+Features are standardised first because PCA is sensitive to the scale of the
+input variables.
 """
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-
 from sklearn import datasets
-from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
-# load the data
-cancer_data = datasets.load_breast_cancer()
-cancer = cancer_data['data']
 
-print(f"Shape of data is: {cancer.shape}")
+def main() -> None:
+    # Load the dataset as a DataFrame so columns keep their feature names.
+    cancer_data = datasets.load_breast_cancer()
+    cancer_df = pd.DataFrame(cancer_data["data"], columns=cancer_data["feature_names"])
+    print(f"Shape of data: {cancer_df.shape}")
+    print(f"Dataset has {cancer_df.shape[1]} features\n")
 
-cancer_df = pd.DataFrame(cancer,
-                         columns=cancer_data['feature_names'])
-cancer_df.head(3)
+    # Standardise to zero mean and unit variance: the raw features span very
+    # different scales, which would otherwise dominate the principal components.
+    scaler = StandardScaler()
+    cancer_scaled = scaler.fit_transform(cancer_df)
 
-# carry out feature scaling
-# variables are not similar scales
-scaler = StandardScaler()
-# fit the scaler
-scaler.fit(cancer_df)
-# normalise the data - 0 mean, standard deviation 1
-cancer_scaled = scaler.transform(cancer)
+    # Compare a range of component counts, up to the full feature set.
+    for iteration, num_pc in enumerate([5, 10, 15, 20, 25, 30], start=1):
+        print("*" * 30)
+        print(f"Iteration {iteration}: retaining {num_pc} principal components")
 
-# use describe to confirm the mean and st dev
-pd.DataFrame(cancer_scaled,
-             columns=cancer_data['feature_names']).describe()
+        pca = PCA(n_components=num_pc)
+        transformed = pca.fit_transform(cancer_scaled)
 
-print(f'Cancer dataset has {len(cancer_data.feature_names)} different features')
+        explained = 100 * np.sum(pca.explained_variance_ratio_)
+        print(f"Explained variance: {explained:.2f}%")
 
-# try a few different iterations of PCA using different number of
-# components
-num_pc_iter = [5, 10, 15, 20, 25, 30]
-for i, num_pc in enumerate(num_pc_iter, 1): # get enumerate to start at one
-    # use PCA on the transformed dataset to reduce dimensions
-    print("*"*30)
-    print(f"Iteration {i}. \n "
-          f"Number of principal components to choose: {num_pc}")
-    pca = PCA(n_components=num_pc)
-    pca.fit(cancer_scaled)
-    # transform the data using the num of principal components
-    transformed_data = pca.transform(cancer_scaled)
-    transformed_variance = pca.explained_variance_ratio_
+        # Map the compressed representation back to the original feature space
+        # and measure how far the reconstruction drifts from the input.
+        reconstructed = pca.inverse_transform(transformed)
+        max_feature_drift = np.max(np.abs(np.sum(reconstructed - cancer_scaled, axis=0)))
+        print(f"Max reconstruction drift across features: {max_feature_drift:.2E}\n")
 
-    # print(f"The original shape of data was {cancer.shape}. \n"
-    #       f"The shape of the new mapped data is {transformed_data.shape} \n")
 
-    print(f"Explained {100 * np.cumsum(transformed_variance)[-1]: .2f}% of total variance ")
-
-    # map the data back to original space following compression
-    cancer_re_mapped = pca.inverse_transform(transformed_data)
-    diff_new_old = cancer_re_mapped - cancer_scaled
-
-    print(f"Max sum of differences for features (between newly mapped and original)"
-          f" {np.max(np.sum(diff_new_old, axis=0)) :.2E} \n")
+if __name__ == "__main__":
+    main()

@@ -1,3 +1,19 @@
+# IDEs / editors
 /.idea
-notebook-projects/Diabetes - Linear Regression.ipynb
-notebook-projects/.ipynb_checkpoints
+.vscode/
+*.swp
+
+# Jupyter
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# OS
+.DS_Store
